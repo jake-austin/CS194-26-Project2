@@ -9,12 +9,12 @@ Here, we are interested in looking at edges. We will take the derivative convolu
 Here we can see the basic cameraman image that we are going to be modifying.
 ![1_1_1](./1_1_1.png "Basic Cameraman Image")
 
-Here we can see the dy and dy outputs from convolving over the input image. You can see how the dy image has more horizontal likes (vertical changes) and the opposite for dx.
+Here we can see the dy and dy outputs from convolving over the input image. You can see how the dy image has more horizontal lines (corresponding to vertical changes) and the opposite for dx.
 
 ![1_1_2](./1_1_2.png "Basic Cameraman Image")
 ![1_1_3](./1_1_3.png "Basic Cameraman Image")
 
-Here we can see the magnitude of the gradient, which is just the square root of the squares of dx and dy (all elementwise). This image pretty much captures the edges of our person.
+Here we can see the magnitude of the gradient, which is just the square root of the sum of squares of dx and dy (all elementwise). This image pretty much captures the edges of our person.
 
 ![1_1_4](./1_1_4.png "Basic Cameraman Image")
 
@@ -51,7 +51,7 @@ Here is our control.
 
 ![2_1_1](./2_1_1.png "Basic Cameraman Image")
 
-Here is a slightly sharper image. You can see that the lines around the hair, coat edge, and especially in the camera itself are much more pronounced. Unfortunately, the noise in the grass is too.
+Here is a slightly sharper image. You can see that the lines around the hair, coat edge are slightly more pronounced. The camera details are much more pronounced with much sharper gradients. Unfortunately, the noise in the grass is too.
 
 ![2_1_2](./2_1_2.png "Basic Cameraman Image")
 
@@ -67,6 +67,11 @@ In general, I didn't want to set the alpha value too high, so the difference is 
 ![2_1_6](./2_1_6.png "Basic Cameraman Image")
 ![2_1_7](./2_1_7.png "Basic Cameraman Image")
 ![2_1_8](./2_1_8.png "Basic Cameraman Image")
+
+Here we can see how the value of alpha changes the sharpening of the images. Over time, the scaffolding becomes easier to see and the trees are more in focus looking.
+
+![2_1_9](./2_1_9.png "Basic Cameraman Image")
+
 
 **Hybrid Images**
 
@@ -91,12 +96,17 @@ Here we can see the images and frequency domains of original images and images w
 Here are some more hybrids
 
 ![2_2_6](./2_2_6.png "Basic Cameraman Image")
+
+This one I would consider my failure overall. No matter how I adjusted the blending for the cookie with a bite and the cookie without, they just sorta mush together and are confusing from both perspectives.
+
 ![2_2_7](./2_2_7.png "Basic Cameraman Image")
 
 Bells and Whistles:
 Here, I tried to combine color with the hybridization of our man/cat thing. I knew that we would need some color from both or it would look really strange with only cat fur or human skin tone, the question was just how much. I think I found a good balance where we did just mostly cat since the cat color is really dark and will blend in the the edges/borders in our image from afar when you see the human.
 
 ![2_2_8](./2_2_8.png "Basic Cameraman Image")
+
+
 
 **Gaussian Stack**
 
@@ -125,19 +135,27 @@ Here is the full thing
 
 ![2_4_2](./2_4_2.png "Basic Cameraman Image")
 
-Here are some more images that I really like, blurred with my favorite image of all, the surfer in the sky!
 
-![2_4_3](./2_4_3.png "Basic Cameraman Image")
 
-Here is the process of creating another surfer in the sky of another image.
+Here is the process of creating a surfer in the sky.
 
 ![2_4_4](./2_4_4.png "Basic Cameraman Image")
 ![2_4_5](./2_4_5.png "Basic Cameraman Image")
 
-Here, I really turned up the blurring on the mask to make sure it fit nicely
+This had really nice color blend due to the fact that I made a really wide gaussian for my gaussian mask, but I should have applied an initial gaussian mask, as you can see the border of the first layer of the laplace pyramid at the intersection between images.
 
 ![2_4_6](./2_4_6.png "Basic Cameraman Image")
 
 Here are the pyramids of both Images
 ![2_4_7](./2_4_7.png "Basic Cameraman Image")
 ![2_4_8](./2_4_8.png "Basic Cameraman Image")
+
+
+Here is another surfer in the sky. For this one, I tried to blur the mask even at the first layer, and tried to make the mask a little tighter to the surfer.
+
+![2_4_9](./2_4_9.png "Basic Cameraman Image")
+![2_4_10](./2_4_10.png "Basic Cameraman Image")
+
+**Takeaways**
+
+I think the multi-scale blending really brought together the most important parts of this project. It clearly illustrated the differences between high and low frequency details, making the concept of fourier transforms in a 2D space really tangible. The only thing I think missing is the emphasis on the role of phase (angle between the real and complex parts of the pixels in frequency domain) which can encode a lot of positional information that the amplitude just can't.

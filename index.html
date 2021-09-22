@@ -7,10 +7,10 @@
 <p>Here, we are interested in looking at edges. We will take the derivative convolutions over our images and look at the magnitude of the gradient.</p>
 <p>Here we can see the basic cameraman image that we are going to be modifying.
 <img src="./1_1_1.png" alt="1_1_1" title="Basic Cameraman Image"></p>
-<p>Here we can see the dy and dy outputs from convolving over the input image. You can see how the dy image has more horizontal likes (vertical changes) and the opposite for dx.</p>
+<p>Here we can see the dy and dy outputs from convolving over the input image. You can see how the dy image has more horizontal lines (corresponding to vertical changes) and the opposite for dx.</p>
 <p><img src="./1_1_2.png" alt="1_1_2" title="Basic Cameraman Image">
 <img src="./1_1_3.png" alt="1_1_3" title="Basic Cameraman Image"></p>
-<p>Here we can see the magnitude of the gradient, which is just the square root of the squares of dx and dy (all elementwise). This image pretty much captures the edges of our person.</p>
+<p>Here we can see the magnitude of the gradient, which is just the square root of the sum of squares of dx and dy (all elementwise). This image pretty much captures the edges of our person.</p>
 <p><img src="./1_1_4.png" alt="1_1_4" title="Basic Cameraman Image"></p>
 <p>Here we can see some different threshold values. I found that values between .15 and .20 seemed to do the best job getting rid of the noise, without getting rid of good information. Unfortunately, no matter what the threshold was, some background information was always lost, though I&#39;d really hoped that the background buildings would stay. If only the background buildings were slightly darker in color, the gradients would have been large enough to cross the threshold.</p>
 <p><img src="./1_1_5.png" alt="1_1_5" title="Basic Cameraman Image"></p>
@@ -29,7 +29,7 @@
 <p><strong>Image Sharpening</strong></p>
 <p>Here is our control.</p>
 <p><img src="./2_1_1.png" alt="2_1_1" title="Basic Cameraman Image"></p>
-<p>Here is a slightly sharper image. You can see that the lines around the hair, coat edge, and especially in the camera itself are much more pronounced. Unfortunately, the noise in the grass is too.</p>
+<p>Here is a slightly sharper image. You can see that the lines around the hair, coat edge are slightly more pronounced. The camera details are much more pronounced with much sharper gradients. Unfortunately, the noise in the grass is too.</p>
 <p><img src="./2_1_2.png" alt="2_1_2" title="Basic Cameraman Image"></p>
 <p>Here is a test to make sure my implementation with a single convolution operation all at once works in the same way. You can see that the images are identical.</p>
 <p><img src="./2_1_3.png" alt="2_1_3" title="Basic Cameraman Image"></p>
@@ -40,6 +40,8 @@ In general, I didn&#39;t want to set the alpha value too high, so the difference
 <img src="./2_1_6.png" alt="2_1_6" title="Basic Cameraman Image">
 <img src="./2_1_7.png" alt="2_1_7" title="Basic Cameraman Image">
 <img src="./2_1_8.png" alt="2_1_8" title="Basic Cameraman Image"></p>
+<p>Here we can see how the value of alpha changes the sharpening of the images. Over time, the scaffolding becomes easier to see and the trees are more in focus looking.</p>
+<p><img src="./2_1_9.png" alt="2_1_9" title="Basic Cameraman Image"></p>
 <p><strong>Hybrid Images</strong></p>
 <p>Here, we are merging the frequency domains of two different images by simply adding two processed images, one with high pass and one with low pass. It certainly isn&#39;t perfect, but it does work here. You can see the cat up close, but back away and the human is clearly there.</p>
 <p><img src="./2_2_1.png" alt="2_2_1" title="Basic Cameraman Image"></p>
@@ -51,8 +53,9 @@ In general, I didn&#39;t want to set the alpha value too high, so the difference
 <p>Here we can see the images and frequency domains of original images and images with a pass on them. The high pass filter gets rid of just the tiny center since we can see our frequency domain gaussian is tiny. In the low pass however, we only really keep the center (and the bars in frequency domain are so large that they are inevitable since our image alignment leaves massive vertical and horizontal lines on the border of the actual image).</p>
 <p><img src="./2_2_5.png" alt="2_2_5" title="Basic Cameraman Image"></p>
 <p>Here are some more hybrids</p>
-<p><img src="./2_2_6.png" alt="2_2_6" title="Basic Cameraman Image">
-<img src="./2_2_7.png" alt="2_2_7" title="Basic Cameraman Image"></p>
+<p><img src="./2_2_6.png" alt="2_2_6" title="Basic Cameraman Image"></p>
+<p>This one I would consider my failure overall. No matter how I adjusted the blending for the cookie with a bite and the cookie without, they just sorta mush together and are confusing from both perspectives.</p>
+<p><img src="./2_2_7.png" alt="2_2_7" title="Basic Cameraman Image"></p>
 <p>Bells and Whistles:
 Here, I tried to combine color with the hybridization of our man/cat thing. I knew that we would need some color from both or it would look really strange with only cat fur or human skin tone, the question was just how much. I think I found a good balance where we did just mostly cat since the cat color is really dark and will blend in the the edges/borders in our image from afar when you see the human.</p>
 <p><img src="./2_2_8.png" alt="2_2_8" title="Basic Cameraman Image"></p>
@@ -69,14 +72,17 @@ Here, I tried to combine color with the hybridization of our man/cat thing. I kn
 <p><img src="./2_4_1.png" alt="2_4_1" title="Basic Cameraman Image"></p>
 <p>Here is the full thing</p>
 <p><img src="./2_4_2.png" alt="2_4_2" title="Basic Cameraman Image"></p>
-<p>Here are some more images that I really like, blurred with my favorite image of all, the surfer in the sky!</p>
-<p><img src="./2_4_3.png" alt="2_4_3" title="Basic Cameraman Image"></p>
-<p>Here is the process of creating another surfer in the sky of another image.</p>
+<p>Here is the process of creating a surfer in the sky.</p>
 <p><img src="./2_4_4.png" alt="2_4_4" title="Basic Cameraman Image">
 <img src="./2_4_5.png" alt="2_4_5" title="Basic Cameraman Image"></p>
-<p>Here, I really turned up the blurring on the mask to make sure it fit nicely</p>
+<p>This had really nice color blend due to the fact that I made a really wide gaussian for my gaussian mask, but I should have applied an initial gaussian mask, as you can see the border of the first layer of the laplace pyramid at the intersection between images.</p>
 <p><img src="./2_4_6.png" alt="2_4_6" title="Basic Cameraman Image"></p>
 <p>Here are the pyramids of both Images
 <img src="./2_4_7.png" alt="2_4_7" title="Basic Cameraman Image">
 <img src="./2_4_8.png" alt="2_4_8" title="Basic Cameraman Image"></p>
+<p>Here is another surfer in the sky. For this one, I tried to blur the mask even at the first layer, and tried to make the mask a little tighter to the surfer.</p>
+<p><img src="./2_4_9.png" alt="2_4_9" title="Basic Cameraman Image">
+<img src="./2_4_10.png" alt="2_4_10" title="Basic Cameraman Image"></p>
+<p><strong>Takeaways</strong></p>
+<p>I think the multi-scale blending really brought together the most important parts of this project. It clearly illustrated the differences between high and low frequency details, making the concept of fourier transforms in a 2D space really tangible. The only thing I think missing is the emphasis on the role of phase (angle between the real and complex parts of the pixels in frequency domain) which can encode a lot of positional information that the amplitude just can&#39;t.</p>
 </body></html>
